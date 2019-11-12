@@ -229,7 +229,7 @@ public class SesionBoxeadorTCP extends Thread{
                 
             case COMBATE_TERMINADO:
                 listening=false;
-                respuesta="12";
+                respuesta="12&"+datos[1];
                 break;
                 
             case TERMINAR_HILO:

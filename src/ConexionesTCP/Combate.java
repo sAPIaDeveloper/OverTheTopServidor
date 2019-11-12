@@ -66,8 +66,8 @@ public class Combate extends Thread {
         guardarDatosParticipacion();
         
         System.out.println("Termino el combate");
-        info.addMensajeParaHiloEscritorio(player1.getCodEmparejamiento(), "5");
-        info.addMensajeParaHiloEscritorio(player2.getCodEmparejamiento(), "5");
+        info.addMensajeParaHiloEscritorio(player1.getCodEmparejamiento(), "5@"+ganador);
+        info.addMensajeParaHiloEscritorio(player2.getCodEmparejamiento(), "5@"+ganador);
         sesionPlayer1.interrupt(); 
         sesionPlayer2.interrupt(); 
         
