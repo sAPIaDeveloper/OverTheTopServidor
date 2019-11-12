@@ -111,7 +111,7 @@ public class HiloTratarYEnviarPaqueteUDP extends Thread{
                 break;
                 
             case OBTENER_COMPETICIONES_APUNTADAS_BOXEADOR:
-                respuesta=bbdd.devolverCompeticionesApuntadasPorUnBoxeador(argumentos[1]);
+                respuesta=bbdd.obtenerCompeticionesEmpezadasYNoAcabadas(argumentos[1]);
                 break;
                 
             case CREAR_COMPETICION:
@@ -160,8 +160,12 @@ public class HiloTratarYEnviarPaqueteUDP extends Thread{
                 break;
             
             case SIGO_ACTIVO:
-                info.setSeñalDeVida(argumentos[1]);
-                System.out.println("Sigo vivo");
+                info.setSeñalDeVida(argumentos[1]);                
+                break;
+                
+            case OBTENER_INFORMACION_COMPETICIONES_APUNTADAS: // POR HACER
+                String nombre_boxeador = argumentos[1] ;
+                String nombre_competicion = argumentos[2] ;
                 break;
         }
         

@@ -32,7 +32,8 @@ public class Codigos_Servidor {
         APUNTAR_BOXEADOR_COMPETICION,
         SIGO_ACTIVO,
         TIEMPO_ASALTO_ACABADO,
-        COMBATE_TERMINADO
+        COMBATE_TERMINADO,
+        OBTENER_INFORMACION_COMPETICIONES_APUNTADAS
     }
     
     public enum Interrupcion{
