@@ -1,0 +1,148 @@
+Crear constaantes puerto y variables fijas.
+
+MENSAJE QUE ENVIA LA APLICACION DE ESCRITORIO
+=============================================
+1. REGISTRAR_USUARIO: Envia el 0 + email + contrasena
+
+2. INICIAR SESION: Envia el 1 + email + contrasena
+
+3. REGISTRAR_BOXEADOR: Envia el 2 + email + nombre + tipo_boxeador + sexo + peso + pais + categoria + cod_usuario
+
+4. OBTENER_COMPETICIONES_APUNTADAS_BOXEADOR: Envia el 3 + nombre_boxeador
+
+5. COMPROBAR_EMPAREJAMIENTO_MOVIL_MAS_DEVOLVER_COD: Envia el 4 + nombre_boxeador
+
+7. COMPROBAR_EMPAREJAMIENTO: 6 
+
+8. BUSCAR_OPONENTE: Envia el 7 + nombre_boxeador + competicion + tipo_boxeador y obtiene el cod_emparejamiento
+
+9. CREAR_COMPETICION: Envia el 8 + nombre + fecha_comienzo + categoria + email_usuario
+
+10. MODIFICAR_BOXEADOR: Envia el 9 + nombre_antiguo + nombre + tipo_boxeador + sexo + peso + pais + categoria
+
+11. BORRAR_BOXEADOR: Envial el 10 + nombre_boxeador
+
+13. PARTIDA_EMPEZADA: Envial el 12
+
+14. OBTENER_ESTADISTICAS_BOXEADOR: Envio el 13 + nombre_boxeador
+
+15. ACTUALIZACION_DATOS_BOXEADOR_COMBATE: Envio el 14 + vida_restante + golpes_lanzados + golpes_conectados + accion_boxeador + asaltos
+
+16. OBTENER_COMPETICIONES_CREADAS: Envio el 15 + nombre_boxeador + offset
+
+17. APUNTAR_BOXEADOR_COMPETICION: Envio el 16 + nombre_boxeador + nombre_competicion
+
+18. SIGO_ACTIVO: Envio el 17 + cod_emparejamiento
+
+19. TIEMPO_ASALTO_ACABADO: Envio el 18
+
+20. COMBATE_TERMINADO: Envio el 19
+
+
+
+
+
+MENSAJE QUE ENVIA LA APLICACION MOVIL
+=====================================
+
+6. EMPAREJAR_MOVIL_ORDENADOR: EnviaDatosTabla el 5 + cod_emparejamiento
+
+12. ACCION_BOXEADOR: Envial el 11 + accion
+
+
+MENSAJE QUE ENVIA EL SERVIDOR A LA APLICACION ESCRITORIO
+========================================================
+
+0. ERROR --> Envial el 0 + Cod_error
+   
+   Codigo de los errores posibles:  1 --> Ya existe un usuario registrado con ese email
+									2 --> El usuario no pudo registrarse con exito
+									3 --> Email o contraseña mal introducida.
+									4 --> Ya existe este nombre de usuario, introduzca otro por favor.
+									5 --> Problema con el registro del boxeador, vuelva a intentarlo.
+									6 --> Movil sin emparejar
+									7 --> Sin oponente
+									8 --> Competicion mismo nombre
+									9 --> Problema al crear competicion
+									10 --> No se pudo actualizar la información del boxeador
+									11 --> No se pudo borrar el boxeador
+									12 --> Ya se encuentra logueado desde otro ordenador, por favor cierre sesion antes.
+									13 --> No pudo apuntarse en la competicion, intentelo más tarde.
+									14 --> Ya estas apuntado a esa competicion
+
+1. REGISTRO_USUARIO_COMPLETADO --> Envia el 1.
+
+2. INICIAR_SESION_ACEPTADO --> Envia el 2 + nombre_boxeador + tipo_boxeador. (Tantas veces como boxeadores tenga creados).
+
+	2+&+nombre+ @ + tipo+&+nombre+ @ + tipo...
+									
+3. REGISTRO_BOXEADOR_COMPLETADO --> Envia el 3
+
+4. MOVIL_EMPAREJADO --> Envia el 4
+
+5. DAR_CODIGO_EMPAREJAMIENTO --> Envia el 5 + cod_emparejamiento
+
+6. OPONENTE_ENCONTRADO --> Envia el 6
+
+7. COMPETICION_CREADA --> Envial el 7
+
+8. BOXEADOR_MODIFICADO --> Envial el 8
+
+9. BOXEADOR_BORRADO --> Envial el 9
+
+10. GOLPE_SACO --> Envial el 10 + accion (PIVOTANDO,BLOQUEO,DIRECTO,GANCHO_IZQUIERDA,GANCHO_DERECHA,ESQUIVAR_IZQUIERDA,ESQUIVAR_DERECHA)
+
+11. ASALTO_TERMINADO --> Envial el 11
+
+12. COMBATE_TERMINADO --> Envial el 12
+
+13. ACTUALIZAR_ACCIONES --> Envia el 13
+
+14. ESTADISTICAS_BOXEADOR --> Envia el 14 + tipo_boxeador + peso + categoria + pais +combates_realizados + combates_ganados + combates_ganados_ko  + lista_competiciones_ganadas + puntos_acumulados 
+
+15. COMPETICIONES_PARA_APUNTARSE --> Envia el 15 + numero_filas + nombre_competicion + email_creador + fecha_comienzo + jugadores_apuntados
+
+16. BOXEADOR_APUNTADO_EXITO: Envial el 16.
+
+MENSAJE QUE ENVIA EL SERVIDOR A LA APLICACION MOVIL
+========================================================
+0. ERROR --> Envia el 0 + Cod_error
+   
+   Codigo de los errores posibles:  1 --> No esta logueado con la aplicacion escritorio
+
+1. GOLPEADO --> Envia el 1
+									
+
+
+
+
+MENSAJE QUE DEBE LEER SERVIDOR SI LE INTERRUMPEN
+================================================
+
+1. ACCION_MANDO --> Envia el 0
+
+2. INDICE_COMBATE_ACTUAL --> Envia el 1
+
+3. COMBATE_EMPEZADO --> Envia el 2
+
+4. ACCION_MANDO_CONTRINCANTE --> Envia el 3
+
+5. ASALTO_TERMINADO --> Envia el 4
+
+6. COMBATE_TERMINADO --> Envia el 5
+
+7. TERMINAR_HILO --> Envia el 6
+
+8. HACER_VIBRAR --> Envia el 7
+
+
+
+MENSAJE ACCION DEL MANDO
+========================
+1. PIVOTANDO: --> 0
+2. BLOQUEO: --> 1
+3. DIRECTO: --> 2
+4. GANCHO_IZQUIERDA: --> 3
+5. GANCHO_DERECHA: --> 4
+6. ESQUIVAR_IZQUIERDA: --> 5
+7. ESQUIVAR_DERECHA: --> 6
