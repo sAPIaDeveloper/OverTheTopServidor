@@ -525,37 +525,18 @@ public class AccesoBaseDatos {
         boolean terminada = false;
         Conexion cn=new Conexion();
         Connection connection=(Connection) cn.conectar();   
-        String competicion;
-        int cod_competicion;
+
         try{
-            PreparedStatement pps2;
-            ResultSet result2;
-            PreparedStatement pps=(PreparedStatement) connection.prepareStatement("Select c.nombre,c.cod_competicion from Competicion c, Boxeador b, Apuntarse a where b.cod_boxeador = a.cod_boxeador && b.nombre = ? && a.cod_competicion = c.cod_competicion" +
-" && c.fecha_comienzo <= NOW()");
+            
+            PreparedStatement pps=(PreparedStatement) connection.prepareStatement("Select c.nombre from Competicion c, Boxeador b, Apuntarse a where b.cod_boxeador = a.cod_boxeador && b.nombre = ? && a.cod_competicion = c.cod_competicion" +
+" && c.fecha_comienzo <= NOW() && c.poseedor_titulo IS NULL");
             
             pps.setString(1, nombre_boxeador);
             
             ResultSet result=pps.executeQuery();
             while(result.next()){
-                competicion=result.getString(1);
-                cod_competicion = result.getInt(2);
-                
-                pps2 = (PreparedStatement) connection.prepareStatement("Select COUNT(ganador_combate) from Competicion where cod_competicion = ? GROUP BY ganador_combate");
-                pps2.setInt(cod_competicion, 1);
-                
-                result2 = pps2.executeQuery();
-                
-                while(result2.next()){
-                    int totalVictorias = result2.getInt(1);
-                    if(totalVictorias >= 10){
-                        terminada = true;
-                    }
-                }
-                
-                if(!terminada){
-                    respuesta+=competicion+"&";
-                }
-                terminada = false;
+                respuesta+=result.getString(1)+"&";
+               
             }                       
         }catch(SQLException e){e.printStackTrace();}
         return respuesta;

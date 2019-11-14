@@ -66,6 +66,7 @@ public class SesionBoxeadorTCP extends Thread{
                     
                     respuesta=tratarInterrupcion(mensaje);                    
                     if(!respuesta.equals("")){
+                        System.out.println(respuesta);
                         print.println(respuesta);
                     }
                     
@@ -82,6 +83,7 @@ public class SesionBoxeadorTCP extends Thread{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        info.eliminarDatosJugadorEnMemoria(cod_emparejamiento, rolHilo,codigoPartidaActual);
         
         System.out.println("Termino hilo TCP");
     }
@@ -237,7 +239,7 @@ public class SesionBoxeadorTCP extends Thread{
                 if(rolHilo.equals("movil")){
                     respuesta = "0&1";
                 }
-                info.removeListaMensajes(rolHilo,cod_emparejamiento);
+                
                 break;
             case HACER_VIBRAR:
                 respuesta = "1";

@@ -33,7 +33,7 @@ public class IntervaloDeEventos extends Thread{
         } catch (InterruptedException e) {
             System.out.println("Alguien toco mando");
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (InterruptedException e2) {
                 System.out.println("Alguien toco mando x 2 vez");
             }

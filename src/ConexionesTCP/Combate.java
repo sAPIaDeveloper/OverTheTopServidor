@@ -89,8 +89,14 @@ public class Combate extends Thread {
             tipoVictoria="PUNTOS";
             if(player1.getSalud()> player2.getSalud()){
                 ganador=player1.getNombre_boxeador();
-            }else{
+            }else if(player1.getSalud()< player2.getSalud()){
                 ganador=player2.getNombre_boxeador();
+            }else{
+                if(player1.getGolpesConectados()> player2.getGolpesConectados()){
+                    ganador=player1.getNombre_boxeador();
+                }else{
+                    ganador=player2.getNombre_boxeador();
+                }
             }
             return true;
         }
