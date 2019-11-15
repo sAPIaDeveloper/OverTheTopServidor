@@ -64,6 +64,9 @@ public class Combate extends Thread {
         
         guardarDatosCombate();
         guardarDatosParticipacion();
+        if(!campeonato.equals("Partida rapida")){
+            comprobarSiCompeticionTerminada();
+        }
         
         System.out.println("Termino el combate");
         info.addMensajeParaHiloEscritorio(player1.getCodEmparejamiento(), "5@"+ganador);
@@ -113,6 +116,10 @@ public class Combate extends Thread {
     public void guardarDatosParticipacion(){
         bbdd.guardardatosParticipacion(player1.getGolpesLanzados(), player1.getGolpesConectados(), player1.getSalud(), player1.getNombre_boxeador(), ganador);
         bbdd.guardardatosParticipacion(player2.getGolpesLanzados(), player2.getGolpesConectados(), player2.getSalud(), player2.getNombre_boxeador(), ganador);
+    }
+    
+    public void comprobarSiCompeticionTerminada(){
+        bbdd.comprobarSiCompeticionTerminada(campeonato);
     }
     
     

@@ -561,4 +561,35 @@ public class AccesoBaseDatos {
         }catch(SQLException e){e.printStackTrace();}
         return respuesta;
     }
+    
+    public void comprobarSiCompeticionTerminada(String nombre_competicion){
+        Conexion cn=new Conexion();
+        Connection connection=(Connection) cn.conectar();     
+        int cod_ganador;
+        try{
+            PreparedStatement pps=(PreparedStatement) connection.prepareStatement("SELECT ganador_combate, count(cod_combate) from combate where cod_competicion = (Select cod_competicion from Competicion where nombre = ?) GROUP BY ganador_combate order by veces_ganadas desc");
+            pps.setString(1, nombre_competicion);
+            
+            ResultSet result=pps.executeQuery();
+            while(result.next()){
+                if(result.getInt(2) >= 10){                    
+                    actualizarCompeticion(nombre_competicion,result.getInt(1));
+                }
+            }
+                       
+        }catch(SQLException e){e.printStackTrace();}
+        
+        
+    }
+    
+    public void actualizarCompeticion(String competicion, int ganador){
+        Conexion cn=new Conexion();
+        Connection connection=(Connection) cn.conectar();
+        try{
+            PreparedStatement pps=(PreparedStatement) connection.prepareStatement("UPDATE Competicion SET ganador_combate=? where nombre=?");
+            pps.executeUpdate();
+           
+        }catch(SQLException e){e.printStackTrace();}
+    }
+    
 }
