@@ -544,18 +544,34 @@ public class AccesoBaseDatos {
     
     public String obtenerInformacionCompeticion(String nombre_boxeador, String nombre_competicion){ // POR HACER
         String respuesta = "";
-        int posicion_boxeador;
-        int mi_posicion;
+        int posicion_boxeador;        
         Conexion cn=new Conexion();
         Connection connection=(Connection) cn.conectar();          
+        String consulta;
+        PreparedStatement pps = null;
         try{
-            PreparedStatement pps=(PreparedStatement) connection.prepareStatement("");
-           // pps.setString(1, email);
+            if(nombre_competicion.equals("Partida rapida")){
+                consulta = "Select b.nombre, COUNT(cb.ganador_combate) as 'veces_ganadas' , SUM(p.puntos_obtenidos)"+
+                " from Combate cb, Participacion p, Boxeador b where cb.cod_competicion IS NULL && cb.cod_combate = p.cod_combate && b.cod_boxeador = cb.ganador_combate && b.cod_boxeador = p.cod_boxeador"+
+                " GROUP BY b.nombre ORDER BY veces_ganadas DESC";
+            }else{
+                    consulta = "Select b.nombre, COUNT(cb.ganador_combate) as 'veces_ganadas' , SUM(p.puntos_obtenidos)"+
+                " from Combate cb, Participacion p, Boxeador b where cb.cod_competicion = (SELECT cm.cod_competicion from Competicion cm where cm.nombre = ?) && cb.cod_combate = p.cod_combate && b.cod_boxeador = cb.ganador_combate && b.cod_boxeador = p.cod_boxeador"+
+                " GROUP BY b.nombre ORDER BY veces_ganadas DESC";
+                
+            }
+            
+            pps = (PreparedStatement) connection.prepareStatement(consulta);
+            if(!nombre_competicion.equals("Partida rapida")){
+                pps.setString(1, nombre_competicion);
+            }
+            
             
             
             ResultSet result=pps.executeQuery();
+            
             while(result.next()){
-                
+                respuesta += result.getString(1)+"@"+result.getInt(2)+"@"+result.getInt(3)+"&";
                 
             }                       
         }catch(SQLException e){e.printStackTrace();}
@@ -567,7 +583,7 @@ public class AccesoBaseDatos {
         Connection connection=(Connection) cn.conectar();     
         int cod_ganador;
         try{
-            PreparedStatement pps=(PreparedStatement) connection.prepareStatement("SELECT ganador_combate, count(cod_combate) from combate where cod_competicion = (Select cod_competicion from Competicion where nombre = ?) GROUP BY ganador_combate order by veces_ganadas desc");
+            PreparedStatement pps=(PreparedStatement) connection.prepareStatement("SELECT ganador_combate, count(cod_combate) as 'veces_ganadas' from combate where cod_competicion = (Select cod_competicion from Competicion where nombre = ?) GROUP BY ganador_combate order by veces_ganadas desc");
             pps.setString(1, nombre_competicion);
             
             ResultSet result=pps.executeQuery();

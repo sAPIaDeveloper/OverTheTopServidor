@@ -160,12 +160,15 @@ public class HiloTratarYEnviarPaqueteUDP extends Thread{
                 break;
             
             case SIGO_ACTIVO:
-                info.setSeñalDeVida(argumentos[1]);                
+                info.setSeñalDeVida(argumentos[1]); 
+                respuesta = "17";
                 break;
                 
             case OBTENER_INFORMACION_COMPETICIONES_APUNTADAS: // POR HACER
                 String nombre_boxeador = argumentos[1] ;
                 String nombre_competicion = argumentos[2] ;
+                respuesta = "18&" + bbdd.obtenerInformacionCompeticion(nombre_boxeador, nombre_competicion);
+                System.out.println(respuesta);
                 break;
         }
         
