@@ -4,6 +4,7 @@ package ConexionesUDP;
 import ClasesComunes.InformacionCompartida;
 import ClasesComunes.Codigos_Servidor;
 import BaseDeDatos.AccesoBaseDatos;
+import ComprobacionLogueado.SesionLogueadosUDP;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -31,12 +32,13 @@ public class SesionBoxeadorUDP extends Thread{
     public SesionBoxeadorUDP(InformacionCompartida info) {        
         this.info=info;
         informacionCompartidaUDP=new InformacionCompartidaUDP();
-        
+        new SesionLogueadosUDP(info,informacionCompartidaUDP).start();
         try {
             socket= new DatagramSocket(4444);
             hiloComprueba=new HiloComprobarSiPaqueteEntrada(informacionCompartidaUDP,info,socket);
         hiloComprueba.start();
         } catch (IOException e) {
+            e.printStackTrace();
             System.err.println("Error al crear el DatagramSocket en SesionBoxeadorUDP");
         }
     }
@@ -49,7 +51,7 @@ public class SesionBoxeadorUDP extends Thread{
                 byte[] bufIn = new byte[256]; 
                 DatagramPacket paqueteEntrada = new DatagramPacket(bufIn, bufIn.length);                               
                 socket.receive(paqueteEntrada);                
-                informacionCompartidaUDP.addPaqueteEntrada(paqueteEntrada);
+                informacionCompartidaUDP.addPaqueteEntrada(paqueteEntrada);                
                 hiloComprueba.interrupt();                                      
             }
             

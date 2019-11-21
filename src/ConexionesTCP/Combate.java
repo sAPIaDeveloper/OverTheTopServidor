@@ -42,7 +42,7 @@ public class Combate extends Thread {
 
     @Override
     public void run() {
-       Thread t= new IntervaloDeEventos(info,sesionPlayer1,sesionPlayer2,this);
+       Thread t= new IntervaloDeEventos(info,sesionPlayer1,sesionPlayer2,this,player1.getCodEmparejamiento(),player2.getCodEmparejamiento());
        info.addCodEmparejamientoHiloIntervalo(player1.getCodEmparejamiento(),t);
        info.addCodEmparejamientoHiloIntervalo(player2.getCodEmparejamiento(),t);
        t.start();
@@ -73,7 +73,7 @@ public class Combate extends Thread {
         info.addMensajeParaHiloEscritorio(player2.getCodEmparejamiento(), "5@"+ganador);
         sesionPlayer1.interrupt(); 
         sesionPlayer2.interrupt(); 
-        
+        t.interrupt();
         
         
     }

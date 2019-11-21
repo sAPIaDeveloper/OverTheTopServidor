@@ -31,11 +31,10 @@ public class HiloComprobarSiPaqueteEntrada extends Thread{
             if(informacionCompartidaUDP.paqueteEntradaPorTratar()){
                 new HiloTratarYEnviarPaqueteUDP(informacionCompartidaUDP.getPaqueteEntrada(),info,socket).start();
             }else{
-                try{
-                    //System.out.println("-- El hilo HiloComprobarSiPaqueteEntrada se dormira 15000000 segundos --");
+                try{                   
                     Thread.sleep(15000000);                
                 }catch(InterruptedException ie){
-                   // System.err.println("El hilo que comprueba si hay paquetes de entrada por tratar fue interrumpido");
+                   //ie.printStackTrace();                    
                 }
             }
             

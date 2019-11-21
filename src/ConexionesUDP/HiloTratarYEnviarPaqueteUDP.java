@@ -35,14 +35,9 @@ public class HiloTratarYEnviarPaqueteUDP extends Thread{
 
     @Override
     public void run() {
-        try{
-            
-            
-            byte[] bufIn = new byte[256];            
-            
+        try{                                                      
             String recibido = new String(paquete_entrada.getData(), 0, paquete_entrada.getLength());
-            
-            String respuesta_servidor=tratarMensaje(recibido);
+            String respuesta_servidor=tratarMensaje(recibido);            
              if(!respuesta_servidor.equals("")){
                 byte bufOut[]=respuesta_servidor.getBytes();               
                 InetAddress address = paquete_entrada.getAddress();
@@ -157,12 +152,7 @@ public class HiloTratarYEnviarPaqueteUDP extends Thread{
                     respuesta = "0&14";
                 }
                 
-                break;
-            
-            case SIGO_ACTIVO:
-                info.setSeñalDeVida(argumentos[1]); 
-                respuesta = "17";
-                break;
+                break;                      
                 
             case OBTENER_INFORMACION_COMPETICIONES_APUNTADAS: // POR HACER
                 String nombre_boxeador = argumentos[1] ;

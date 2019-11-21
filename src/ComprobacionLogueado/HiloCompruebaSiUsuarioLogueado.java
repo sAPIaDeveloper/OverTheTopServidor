@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ClasesComunes;
+package ComprobacionLogueado;
+
+import ClasesComunes.InformacionCompartida;
 
 /**
  *
@@ -20,12 +22,11 @@ public class HiloCompruebaSiUsuarioLogueado extends Thread {
     public void run() {
         while(true){
             try {
-                Thread.sleep(40000);
+                Thread.sleep(20000);
                 String lista = info.obtenerTodosJugadoresLogueados();
                 String jugadores[]= lista.split("&");  
                 if(!jugadores[0].equals("")){                                      
-                    for (int i = 0; i < jugadores.length; i++) { 
-                        System.out.println("Lista "+jugadores[i]);
+                    for (int i = 0; i < jugadores.length; i++) {                         
                         info.comprobarSiExisteSeñalDeVida(jugadores[i]);
 
                     }

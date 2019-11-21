@@ -52,6 +52,10 @@ public class InformacionCompartida {
         señal_vida = new ArrayList();
     }
 
+    public synchronized int numeroLogueados(){
+        return jugadores_logueados.size();
+    }
+    
     public synchronized void addHiloEscritorio(String cod_emparejamiento,SesionBoxeadorTCP sesion){
         cod_emparejamiento_hiloEscritorio.put(cod_emparejamiento, sesion);
     }
@@ -83,8 +87,6 @@ public class InformacionCompartida {
     }
 
     public synchronized void addMensajeParaHiloEscritorio(String cod_emparejamiento,String mensaje){
-        System.out.println(cod_emparejamiento+"  "+mensaje);
-
         if(listaMensajesParaHiloEscritorio.containsKey(cod_emparejamiento)){
             Stack s=listaMensajesParaHiloEscritorio.get(cod_emparejamiento);
             s.push(mensaje);
@@ -95,9 +97,7 @@ public class InformacionCompartida {
         }
     }
 
-    public synchronized void addMensajeParaHiloMoviles(String cod_emparejamiento,String mensaje){
-        System.out.println(cod_emparejamiento+"  "+mensaje);
-
+    public synchronized void addMensajeParaHiloMoviles(String cod_emparejamiento,String mensaje){        
         if(listaMensajesParaHiloMoviles.containsKey(cod_emparejamiento)){
             Stack s=listaMensajesParaHiloMoviles.get(cod_emparejamiento);
             s.push(mensaje);
@@ -129,8 +129,7 @@ public class InformacionCompartida {
         return jugadores_logueados.contains(cod_emparejamiento);
     }
 
-    public synchronized boolean comprobarUsuarioListaLogueadosEscritorio(String cod_emparejamiento){
-        System.out.println(cod_emparejamiento_hiloEscritorio.containsKey(cod_emparejamiento));
+    public synchronized boolean comprobarUsuarioListaLogueadosEscritorio(String cod_emparejamiento){        
         return cod_emparejamiento_hiloEscritorio.containsKey(cod_emparejamiento);
     }
 
@@ -218,8 +217,7 @@ public class InformacionCompartida {
         }        
     }
 
-    public synchronized void addEventoMandoAJugadores(int codPartida,String codEmparejamiento,String accion){// mirar bien
-        System.out.println("Cod para el indice: "+codPartida);
+    public synchronized void addEventoMandoAJugadores(int codPartida,String codEmparejamiento,String accion){// mirar bien        
         ArrayList<String> codigos=indice_combate_jugadores.get(codPartida);
         if(codigos == null){
             System.out.println("Error null");
@@ -268,22 +266,29 @@ public class InformacionCompartida {
 
     }
 
+    public synchronized void borrarreferenciaHiloTCPEscritorio(String cod_emparejamiento){
+        if(cod_emparejamiento_hiloEscritorio.containsKey(cod_emparejamiento)){
+            cod_emparejamiento_hiloEscritorio.remove(cod_emparejamiento);
+        }
+        
+    }
+    
     public synchronized void comprobarSiExisteSeñalDeVida(String cod_emparejamiento){
         if(señal_vida.contains(cod_emparejamiento)){
             señal_vida.remove(cod_emparejamiento);
-            System.out.println("El usuario: "+cod_emparejamiento+" sigue activo");
         }else{
             addMensajeParaHiloMoviles(cod_emparejamiento,"6");
             addMensajeParaHiloEscritorio(cod_emparejamiento,"6");
             avisarLeerDatoAHiloEscritorio(cod_emparejamiento);
-            avisarLeerDatoAHiloMovil(cod_emparejamiento);            
+            avisarLeerDatoAHiloMovil(cod_emparejamiento);
+                       
             jugadores_logueados.remove(cod_emparejamiento);                   
             cod_emparejamiento_hilointervaloEvento.remove(cod_emparejamiento);
-            System.out.println("El usuario: "+cod_emparejamiento+" fue borrado porque no esta logueado");
         }
     }
 
     public void eliminarDatosJugadorEnMemoria(String cod_emparejamiento,String rol,int codigoActual){
+        System.out.println("Eliminare los datos en memoria del "+rol);
         if(rol.equals("movil")){            
             listaMensajesParaHiloMoviles.remove(cod_emparejamiento);
             cod_emparejamiento_hiloMoviles.remove(cod_emparejamiento);
@@ -309,7 +314,7 @@ public class InformacionCompartida {
                     s.remove(cod_emparejamiento);
                 }
             }
-
+               // avisarLeerDatoAHiloMovil(cod_emparejamiento); 
         }
     }
 

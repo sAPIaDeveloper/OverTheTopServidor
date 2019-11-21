@@ -1,10 +1,14 @@
 package ClasesComunes;
 
 
+import ComprobacionLogueado.HiloCompruebaSiUsuarioLogueado;
 import ConexionesTCP.SesionBoxeadorTCP;
 import ConexionesUDP.SesionBoxeadorUDP;
+import java.awt.Color;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeMap;
 
 /*
@@ -18,9 +22,10 @@ import java.util.TreeMap;
  * @author josea
  */
 public class Servidor {
-    static TreeMap<String,String> g=new TreeMap();
-    public static void main(String[] args) {
+    public static int numeroLogueadosUltimaVez;
+    public static void main(String[] args) {        
         Servidor s=new Servidor();      
+        s.numeroLogueadosUltimaVez = 0;
         InformacionCompartida info=new InformacionCompartida();
         
         
@@ -32,8 +37,40 @@ public class Servidor {
             new HiloCompruebaSiUsuarioLogueado(info).start();
             new SesionBoxeadorUDP(info).start();
             
-            while (listening) {
+            Timer timer;
+            TimerTask tarea;
+            
+            PanelInformacion panel = new PanelInformacion();
+            panel.setVisible(true);
+            tarea = new TimerTask(){
+                @Override
+                public void run() {
+                    int logueados = info.numeroLogueados();
+                    long memoriaLibre = ((Runtime.getRuntime().freeMemory() + (Runtime.getRuntime().maxMemory()-Runtime.getRuntime().totalMemory()))/(1024*1024));
+                    long memoriaUtilizada = ((Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024));
+                    if(logueados < numeroLogueadosUltimaVez){
+                        Runtime.getRuntime().gc();
+                    }
+                    
+                    if(memoriaLibre < 100){
+                         panel.getMemoria_libre().setForeground(Color.red);
+                    }else{
+                        panel.getMemoria_libre().setForeground(Color.black);
+                    }
+                    numeroLogueadosUltimaVez = logueados;
+                    panel.getJugadores_logueados().setText(logueados+"");
+                    panel.getMemoria_libre().setText(memoriaLibre+" MB");
+                    panel.getMemoria_utilizada().setText(memoriaUtilizada+" MB");
+                }
                 
+            };
+            
+            timer = new Timer();
+            
+            timer.scheduleAtFixedRate(tarea, 2000, 2000);
+            
+            while (listening) {
+                System.out.println("Acepto socket");
                 new SesionBoxeadorTCP(serverSocket.accept(),info).start();
                 
             }

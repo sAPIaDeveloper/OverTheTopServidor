@@ -51,6 +51,10 @@ public class SesionBoxeadorTCP extends Thread{
             mensaje=cliente.readLine();
             
             respuesta=tratarMensaje(mensaje);
+            if(rolHilo.equals("movil")){
+                System.out.println("Mensaje: "+mensaje+"  Respuesta: "+respuesta);
+            }
+            
             while(listening){ 
                 if(!respuesta.isEmpty()){
                     print.println(respuesta);
@@ -61,12 +65,11 @@ public class SesionBoxeadorTCP extends Thread{
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
                    if(rolHilo.equals("movil")){
-                       mensaje=info.getMensajeParaHiloMoviles(cod_emparejamiento);
+                       mensaje=info.getMensajeParaHiloMoviles(cod_emparejamiento);                      
                    }else mensaje=info.getMensajeParaHiloEscritorio(cod_emparejamiento);
                     
                     respuesta=tratarInterrupcion(mensaje);                    
-                    if(!respuesta.equals("")){
-                        System.out.println(respuesta);
+                    if(!respuesta.equals("")){                        
                         print.println(respuesta);
                     }
                     
@@ -83,9 +86,11 @@ public class SesionBoxeadorTCP extends Thread{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        info.eliminarDatosJugadorEnMemoria(cod_emparejamiento, rolHilo,codigoPartidaActual);
         
-        System.out.println("Termino hilo TCP");
+        if(rolHilo.equals("escritorio")){
+            info.borrarreferenciaHiloTCPEscritorio(cod_emparejamiento);
+        }
+        System.out.println("Termino hilo TCP del "+rolHilo);
     }
     
     
@@ -112,8 +117,7 @@ public class SesionBoxeadorTCP extends Thread{
                 respuesta=info.comprobarMovilLogueado(cod_emparejamiento);
                 break;
                 
-            case EMPAREJAR_MOVIL_ORDENADOR: // Esto para cuando el mensaje viene desde el movil no de la aplicacion escritorio
-                
+            case EMPAREJAR_MOVIL_ORDENADOR: // Esto para cuando el mensaje viene desde el movil no de la aplicacion escritorio                
                 cod_emparejamiento=datos[1];
                 if(info.comprobarUsuarioListaLogueadosEscritorio(cod_emparejamiento)){
                     info.addMovilListaLogueados(datos[1]);
@@ -123,7 +127,7 @@ public class SesionBoxeadorTCP extends Thread{
                 }else{
                     respuesta="0&1";
                 }
-                    
+                  System.out.println("Respuesta para el movil: "+respuesta);  
                 break;
                 
             case BUSCAR_OPONENTE:
@@ -137,14 +141,11 @@ public class SesionBoxeadorTCP extends Thread{
                 
                 break;
                 
-            case ACCION_BOXEADOR:      
-                
-                    
+            case ACCION_BOXEADOR:                                          
                     //llamar aqui al intervalo
                     if(combateCurso){
                         String mensajeCombate[]= datos[1].split("@");
-                        info.addMensajeParaHiloEscritorio(cod_emparejamiento, mensajeCombate[0]);
-                        System.out.println("Mensajes hilo escritorio: "+mensajeCombate[0]+" accion: "+mensajeCombate[1]);
+                        info.addMensajeParaHiloEscritorio(cod_emparejamiento, mensajeCombate[0]);                        
                         info.addEventoMandoAJugadores(codigoPartidaActual,cod_emparejamiento,devolverAccionMando(Integer.parseInt(mensajeCombate[1])));
                         info.avisarHiloIntervalo(cod_emparejamiento);
                     }else{
@@ -230,16 +231,22 @@ public class SesionBoxeadorTCP extends Thread{
                 break;
                 
             case COMBATE_TERMINADO:
-                listening=false;
-                respuesta="12&"+datos[1];
+                if(rolHilo.equals("movil")){
+                    combateCurso = false;
+                }else{
+                    listening=false;
+                    respuesta="12&"+datos[1];
+                }
+                
                 break;
                 
             case TERMINAR_HILO:
+                System.out.println("Hilo interrumpido para terminar conexion TCP del "+rolHilo);
                 listening = false;
                 if(rolHilo.equals("movil")){
                     respuesta = "0&1";
                 }
-                
+                info.eliminarDatosJugadorEnMemoria(cod_emparejamiento, rolHilo,codigoPartidaActual);
                 break;
             case HACER_VIBRAR:
                 respuesta = "1";

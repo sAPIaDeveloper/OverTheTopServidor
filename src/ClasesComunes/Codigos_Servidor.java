@@ -33,7 +33,8 @@ public class Codigos_Servidor {
         SIGO_ACTIVO,
         TIEMPO_ASALTO_ACABADO,
         COMBATE_TERMINADO,
-        OBTENER_INFORMACION_COMPETICIONES_APUNTADAS
+        OBTENER_INFORMACION_COMPETICIONES_APUNTADAS,
+        
     }
     
     public enum Interrupcion{

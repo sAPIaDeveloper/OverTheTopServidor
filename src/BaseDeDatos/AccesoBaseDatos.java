@@ -100,8 +100,7 @@ public class AccesoBaseDatos {
             
             ResultSet result=pps.executeQuery();
             while(result.next()){
-                boxeadores+=result.getString(1)+"@"+result.getString(2)+"@"+result.getDouble(3)+"@"+result.getString(4)+"&";
-                System.out.println(boxeadores);
+                boxeadores+=result.getString(1)+"@"+result.getString(2)+"@"+result.getDouble(3)+"@"+result.getString(4)+"&";                
                 
             }                       
         }catch(SQLException e){e.printStackTrace();}
@@ -321,32 +320,28 @@ public class AccesoBaseDatos {
             while(result.next()){
                 respuesta+=result.getInt(1)+"&";
                 
-            }
-            System.out.println(respuesta+"");
+            }            
             pps=(PreparedStatement) connection.prepareStatement("Select count(c.cod_combate) from Combate c, Boxeador b where b.cod_boxeador=c.ganador_combate && b.nombre=?");
             pps.setString(1, nombre_boxeador);
             result=pps.executeQuery();
             while(result.next()){
                 respuesta+=result.getInt(1)+"&";
                 
-            }
-            System.out.println(respuesta+"");
+            }           
             pps=(PreparedStatement) connection.prepareStatement("Select count(c.cod_combate) from Combate c, Boxeador b where b.cod_boxeador=c.ganador_combate && b.nombre=? && tipo_victoria='KO'");
             pps.setString(1, nombre_boxeador);
             result=pps.executeQuery();
             while(result.next()){
                 respuesta+=result.getInt(1)+"&";
                 
-            }
-            System.out.println(respuesta+"");
+            }            
             pps=(PreparedStatement) connection.prepareStatement("Select c.nombre from Competicion c, Boxeador b where c.poseedor_titulo=b.cod_boxeador && b.nombre=?");
             pps.setString(1, nombre_boxeador);
             result=pps.executeQuery();
             while(result.next()){
                 respuesta+=result.getString(1)+"@";
                 
-            }
-          System.out.println(respuesta+"");
+            }        
             respuesta+="&";
             
             pps=(PreparedStatement) connection.prepareStatement("Select SUM(p.puntos_obtenidos), SUM(golpes_lanzados), SUM(golpes_conectados) from Participacion p, Boxeador b where p.cod_boxeador=b.cod_boxeador && b.nombre=?");
@@ -355,8 +350,7 @@ public class AccesoBaseDatos {
             while(result.next()){
                 respuesta+=result.getInt(1)+"&"+result.getInt(2)+"&"+result.getInt(3);
                 
-            }
-            System.out.println(respuesta+"");
+            }            
         }catch(SQLException e){e.printStackTrace();}
         return respuesta;
     }
@@ -478,8 +472,7 @@ public class AccesoBaseDatos {
             }
             
         }catch(SQLException e){e.printStackTrace();}
-        
-        System.out.println("Registro Combate --> "+registro_exito);
+                
     }
     
     public void guardardatosParticipacion(int golpes_lanzados,int golpes_conectados,int salud,String nombre_boxeador,String nombre_ganador){
@@ -517,7 +510,7 @@ public class AccesoBaseDatos {
             
         }catch(SQLException e){e.printStackTrace();}
         
-        System.out.println("Registro psrticipacion --> "+registro_exito);
+        
     }
     
     public String obtenerCompeticionesEmpezadasYNoAcabadas(String nombre_boxeador){
@@ -602,7 +595,9 @@ public class AccesoBaseDatos {
         Conexion cn=new Conexion();
         Connection connection=(Connection) cn.conectar();
         try{
-            PreparedStatement pps=(PreparedStatement) connection.prepareStatement("UPDATE Competicion SET ganador_combate=? where nombre=?");
+            PreparedStatement pps=(PreparedStatement) connection.prepareStatement("UPDATE Competicion SET poseedor_titulo=? where nombre=?");
+            pps.setInt(1, ganador);
+            pps.setString(2, competicion);
             pps.executeUpdate();
            
         }catch(SQLException e){e.printStackTrace();}
