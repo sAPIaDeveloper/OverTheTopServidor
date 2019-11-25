@@ -143,6 +143,7 @@ public class SesionBoxeadorTCP extends Thread{
                 
             case ACCION_BOXEADOR:                                          
                     //llamar aqui al intervalo
+                System.out.println("mensaje del movil: ---> "+mensaje);
                     if(combateCurso){
                         String mensajeCombate[]= datos[1].split("@");
                         info.addMensajeParaHiloEscritorio(cod_emparejamiento, mensajeCombate[0]);                        
@@ -159,6 +160,7 @@ public class SesionBoxeadorTCP extends Thread{
             case PARTIDA_EMPEZADA:
                 info.ponerJugadorPreparado(codigoPartidaActual,cod_emparejamiento);
                 combateCurso=true;
+                System.out.println("Combate curso: "+combateCurso);
                 info.addMensajeParaHiloMoviles(cod_emparejamiento, "2@"+codigoPartidaActual);
                 info.avisarLeerDatoAHiloMovil(cod_emparejamiento);
                 break;
@@ -182,6 +184,11 @@ public class SesionBoxeadorTCP extends Thread{
                 info.actualizarAsalto(cod_emparejamiento, Integer.parseInt(datos[1]));
                 info.avisarCombate(codigoPartidaActual);
                 break;
+                
+            case JUGADOR_NO_ENCONTRADO:
+                info.borrarJugadorEnListaEspera(datos[1], cod_emparejamiento);
+                listening = false;
+                break;
            
         }
         
@@ -195,6 +202,7 @@ public class SesionBoxeadorTCP extends Thread{
         String respuesta="";
         String datos[]=mensaje.split("@");
         int cod= Integer.parseInt(datos[0]);
+        System.out.println("Interrupcion: --> "+mensaje);
         switch(Codigos_Servidor.interrupcion_servidor(cod)){
             case ACCION_MANDO:
                 if(combateCurso){

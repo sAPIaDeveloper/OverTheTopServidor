@@ -38,14 +38,14 @@ MENSAJE QUE ENVIA LA APLICACION DE ESCRITORIO
 
 20. COMBATE_TERMINADO: Envio el 19
 
+21. OBTENER_INFORMACION_COMPETICIONES_APUNTADAS: Envio el 20 + nombre_boxeador + nombre_competicion
 
-
-
+22. CERRAR_SESION : Envio el 21
 
 MENSAJE QUE ENVIA LA APLICACION MOVIL
 =====================================
 
-6. EMPAREJAR_MOVIL_ORDENADOR: EnviaDatosTabla el 5 + cod_emparejamiento
+6. EMPAREJAR_MOVIL_ORDENADOR: Envia el 5 + cod_emparejamiento
 
 12. ACCION_BOXEADOR: Envial el 11 + accion
 
@@ -53,7 +53,7 @@ MENSAJE QUE ENVIA LA APLICACION MOVIL
 MENSAJE QUE ENVIA EL SERVIDOR A LA APLICACION ESCRITORIO
 ========================================================
 
-0. ERROR --> Envial el 0 + Cod_error
+0. ERROR --> Envia el 0 + Cod_error
    
    Codigo de los errores posibles:  1 --> Ya existe un usuario registrado con ese email
 									2 --> El usuario no pudo registrarse con exito
@@ -94,7 +94,7 @@ MENSAJE QUE ENVIA EL SERVIDOR A LA APLICACION ESCRITORIO
 
 11. ASALTO_TERMINADO --> Envial el 11
 
-12. COMBATE_TERMINADO --> Envial el 12
+12. COMBATE_TERMINADO --> Envial el 12 + nombre_ganador
 
 13. ACTUALIZAR_ACCIONES --> Envia el 13
 
@@ -103,6 +103,12 @@ MENSAJE QUE ENVIA EL SERVIDOR A LA APLICACION ESCRITORIO
 15. COMPETICIONES_PARA_APUNTARSE --> Envia el 15 + numero_filas + nombre_competicion + email_creador + fecha_comienzo + jugadores_apuntados
 
 16. BOXEADOR_APUNTADO_EXITO: Envial el 16.
+
+17. MENSAJE_DE_SEGUIR_ACTIVO_RECIBIDO: Envia el 17.
+
+18. DATOS_DE_COMPETICION_SELECCIONADA: Envia el 18 + nombre_boxeador + veces_ganadas + puntos_totales
+
+
 
 MENSAJE QUE ENVIA EL SERVIDOR A LA APLICACION MOVIL
 ========================================================
@@ -129,7 +135,7 @@ MENSAJE QUE DEBE LEER SERVIDOR SI LE INTERRUMPEN
 
 5. ASALTO_TERMINADO --> Envia el 4
 
-6. COMBATE_TERMINADO --> Envia el 5
+6. COMBATE_TERMINADO --> Envia el 5 + nombre_ganador
 
 7. TERMINAR_HILO --> Envia el 6
 

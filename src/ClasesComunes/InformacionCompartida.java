@@ -56,6 +56,11 @@ public class InformacionCompartida {
         return jugadores_logueados.size();
     }
     
+    public synchronized void borrarJugadorEnListaEspera(String competicion,String codEmparejamiento){
+        Stack s = campeonato_listaJugadoresEnEsperaPartida.get(competicion);
+        s.remove(codEmparejamiento);
+    }
+    
     public synchronized void addHiloEscritorio(String cod_emparejamiento,SesionBoxeadorTCP sesion){
         cod_emparejamiento_hiloEscritorio.put(cod_emparejamiento, sesion);
     }

@@ -481,9 +481,9 @@ public class AccesoBaseDatos {
         Connection connection=(Connection) cn.conectar();
         int puntuacion = golpes_conectados;
         if(nombre_boxeador.equals(nombre_ganador)){
-            puntuacion += 15;
+            puntuacion += 5;
         }else{
-            puntuacion -= 5;
+            puntuacion -= 3;
             
             if( puntuacion < 0 ){
                 puntuacion = 0;

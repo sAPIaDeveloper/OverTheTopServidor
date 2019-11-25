@@ -34,7 +34,7 @@ public class Codigos_Servidor {
         TIEMPO_ASALTO_ACABADO,
         COMBATE_TERMINADO,
         OBTENER_INFORMACION_COMPETICIONES_APUNTADAS,
-        
+        JUGADOR_NO_ENCONTRADO
     }
     
     public enum Interrupcion{

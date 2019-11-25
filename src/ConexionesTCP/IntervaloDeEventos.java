@@ -36,9 +36,11 @@ public class IntervaloDeEventos extends Thread{
             Thread.sleep(50000);
         } catch (InterruptedException e) {
             //e.printStackTrace();
+                System.err.println("Mando uno");
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e2) {
+                System.err.println("Mando uno");
                // e.printStackTrace();
             }
             if(!combate.isAlive()){activo=false;}else{
